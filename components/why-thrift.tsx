@@ -1,8 +1,13 @@
+'use client';
 
-
-import { Leaf, Sparkles, PiggyBank, Recycle, Instagram } from "lucide-react";
-import Script from "next/script";
+import { useEffect, useState } from 'react';
+import { Leaf, Sparkles, PiggyBank, Recycle, Instagram, Loader2 } from "lucide-react";
+import Image from "next/image";
 import styles from './instagram-feed.module.css';
+import { instagramService } from '@/lib/services/instagram';
+import type { InstagramPost } from '@/types/instagram';
+
+const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 const reasons = [
   {
@@ -28,6 +33,30 @@ const reasons = [
 ];
 
 export default function WhyThrift() {
+  const [posts, setPosts] = useState<InstagramPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchPosts = async () => {
+    try {
+      const recentPosts = await instagramService.getRecentPosts();
+      setPosts(recentPosts);
+      setError(null);
+    } catch (err) {
+      setError('Failed to load Instagram posts');
+      console.error('Error loading Instagram posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+    // Set up auto-refresh
+    const interval = setInterval(fetchPosts, REFRESH_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="py-16 bg-muted">
       <div className="container-custom">
@@ -56,27 +85,52 @@ export default function WhyThrift() {
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <a
-                href="https://www.instagram.com/thriftvibe"
+                href="https://www.instagram.com/eisenhauser_thrifts"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-accent transition-colors"
               >
-                @thriftvibe
+                @eisenhauser_thrifts
               </a>
               <span>•</span>
-              <span>10K followers</span>
+              <span>83 followers</span>
               <span>•</span>
-              <span>150 posts</span>
+              <span>102 posts</span>
             </div>
           </div>
 
-          {/* Elfsight Instagram Feed Widget */}
-          <div className={`elfsight-app-instagram-feed ${styles.instagramGrid}`}>
-            <Script
-              src="https://static.elfsight.com/platform/platform.js"
-              data-use-service-core
-              defer
-            />
+          {/* Instagram Feed Grid */}
+          <div className={styles.instagramGrid}>
+            {loading ? (
+              <div className="col-span-3 flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-accent" />
+              </div>
+            ) : error ? (
+              <div className="col-span-3 text-center text-muted-foreground py-12">
+                {error}
+              </div>
+            ) : (
+              posts.map((post) => (
+                <a
+                  key={post.id}
+                  href={post.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.instagramPost}
+                >
+                  <Image
+                    src={post.imageUrl}
+                    alt="Instagram post"
+                    width={400}
+                    height={400}
+                    className="object-cover w-full h-full"
+                  />
+                  <div className={styles.overlay}>
+                    <Instagram className="w-6 h-6 text-white" />
+                  </div>
+                </a>
+              ))
+            )}
           </div>
         </div>
       </div>
