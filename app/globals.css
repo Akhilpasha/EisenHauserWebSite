@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Elfsight Instagram Feed Custom Styles */
+.eapps-instagram-feed {
+  background: transparent !important;
+}
+
+.eapps-instagram-feed-posts-grid {
+  grid-gap: 1rem !important;
+}
+
+.eapps-instagram-feed-posts-item {
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+}
+
+:root {
+  --font-playfair: var(--font-playfair);
+  --font-montserrat: var(--font-montserrat);
+}
+
+@layer base {
+  :root {
+    --background: 36 33% 97%;
+    --foreground: 30 6% 25%;
+
+    --card: 36 33% 97%;
+    --card-foreground: 30 6% 25%;
+
+    --popover: 36 33% 97%;
+    --popover-foreground: 30 6% 25%;
+
+    --primary: 36 40% 90%;
+    --primary-foreground: 30 6% 25%;
+
+    --secondary: 150 20% 80%;
+    --secondary-foreground: 150 30% 20%;
+
+    --accent: 35 80% 60%;
+    --accent-foreground: 35 10% 20%;
+
+    --muted: 30 10% 92%;
+    --muted-foreground: 30 6% 40%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 30 10% 85%;
+    --input: 30 10% 85%;
+    --ring: 35 80% 60%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 30 6% 15%;
+    --foreground: 36 33% 97%;
+
+    --card: 30 6% 15%;
+    --card-foreground: 36 33% 97%;
+
+    --popover: 30 6% 15%;
+    --popover-foreground: 36 33% 97%;
+
+    --primary: 30 6% 25%;
+    --primary-foreground: 36 33% 97%;
+
+    --secondary: 150 30% 20%;
+    --secondary-foreground: 150 20% 80%;
+
+    --accent: 35 80% 40%;
+    --accent-foreground: 35 10% 98%;
+
+    --muted: 30 6% 20%;
+    --muted-foreground: 30 10% 70%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 30 6% 30%;
+    --input: 30 6% 30%;
+    --ring: 35 80% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-playfair;
+  }
+  p,
+  span,
+  a,
+  button,
+  input,
+  textarea {
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply container mx-auto px-4 md:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply bg-accent text-accent-foreground hover:bg-accent/90 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background px-4 py-2;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background px-4 py-2;
+  }
+
+  .btn-outline {
+    @apply border border-input hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background px-4 py-2;
+  }
+
+  .product-card {
+    @apply bg-card rounded-md overflow-hidden shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  .product-image-container {
+    @apply relative overflow-hidden aspect-[3/4];
+  }
+
+  .product-image {
+    @apply object-cover w-full h-full transition-transform duration-500 hover:scale-105;
+  }
+}
+
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-sans {
+  font-family: var(--font-montserrat);
+}
+
